@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Task1Activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
+
+            <Button
+                android:id="@+id/btn1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Button 1" android:onClick="showMessage"/>
+
+            <Button
+                android:id="@+id/btn2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Button 2" android:onClick="showMessage"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="Button 3" android:onClick="showMessage"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
+
+            <Button
+                android:id="@+id/btn40"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Button 40" android:onClick="showMessage"/>
+
+            <Button
+                android:id="@+id/btn100000"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Button 100000" android:onClick="showMessage"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="3">
+
+            <Button
+                android:id="@+id/btnsave"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Save" android:onClick="showMessage"/>
+
+            <Button
+                android:id="@+id/btnsubmit"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Submit" android:onClick="showMessage"/>
+
+            <Button
+                android:id="@+id/btncancel"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Cancel" android:onClick="showMessage"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
