@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Task3Activity">
+
+    <Button android:id="@+id/btn1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="Button 1" android:onClick="showMessage"/>
+
+    <Button android:id="@+id/btn2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="Button 2" android:onClick="showMessage"/>
+
+    <Button android:id="@+id/btn3"
+        app:layout_constraintTop_toBottomOf="@id/btn2"
+        app:layout_constraintLeft_toRightOf="@id/btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="Button 3" android:onClick="showMessage"/>
+
+    <Button android:id="@+id/btn4"
+        app:layout_constraintTop_toBottomOf="@id/btn3"
+        app:layout_constraintRight_toLeftOf="@id/btn3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="Button 4" android:onClick="showMessage"/>
+
+    <TextView
+        android:id="@+id/txt1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="User"
+        app:layout_constraintTop_toBottomOf="@id/btn4" android:textSize="30dp"/>
+
+    <TextView
+        android:id="@+id/txt2"
+        app:layout_constraintLeft_toLeftOf="@id/btn4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="_________________________________________"
+        app:layout_constraintBottom_toBottomOf="@id/txt1"/>
+
+    <Button android:id="@+id/btn5"
+        app:layout_constraintTop_toBottomOf="@id/txt2"
+        app:layout_constraintLeft_toLeftOf="@id/txt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="Button 5" android:onClick="showMessage"/>
+
+    <Button android:id="@+id/btn6"
+        app:layout_constraintTop_toBottomOf="@id/txt2"
+        app:layout_constraintRight_toRightOf="@id/txt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="Button 6" android:onClick="showMessage"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:id="@+id/btnsearch"
+        app:layout_constraintTop_toBottomOf="@id/btn6"
+        app:layout_constraintRight_toLeftOf="@id/btn6"
+        android:drawableLeft="@drawable/search"
+        android:text="Search"
+        android:onClick="showMessage"/>
+
+    <Button android:id="@+id/btn7"
+        app:layout_constraintTop_toBottomOf="@id/btn6"
+        app:layout_constraintRight_toRightOf="@id/btn6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="Button 7" android:onClick="showMessage"/>
+
+
+</android.support.constraint.ConstraintLayout>

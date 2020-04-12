@@ -22,4 +22,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Task2Activity.class);
         startActivity(intent);
     }
+
+    public void task3(View view) {
+        Intent intent = new Intent(this, Task3Activity.class);
+        startActivity(intent);
+    }
 }
