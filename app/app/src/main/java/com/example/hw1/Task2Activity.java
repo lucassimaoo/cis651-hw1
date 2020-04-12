@@ -6,12 +6,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class Task1Activity extends AppCompatActivity {
+public class Task2Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task1);
+        setContentView(R.layout.activity_task2);
     }
 
     public void showMessage(View view) {

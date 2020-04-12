@@ -38,7 +38,7 @@
         <Button
             android:text="Task 2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" android:onClick="task2" />
 
         <Button
             android:text="Task 3"
