@@ -5,10 +5,26 @@
     android:layout_height="match_parent"
     tools:context=".Fragment2">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent" android:orientation="vertical">
+
+    <EditText android:id="@+id/city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="city"/>
+
+    <EditText android:id="@+id/zip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="zipcode"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="Back" android:id="@+id/back_button2"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="Next" android:id="@+id/next_button2"/>
+
+    </LinearLayout>
 
 </FrameLayout>

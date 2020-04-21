@@ -11,31 +11,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class Fragment2 extends Fragment {
+public class Fragment1 extends Fragment {
 
     private FragmentTracker ft;
     private View v;
 
-    public static final String fragmentTitle = "Address Info";
+    public static final String fragmentTitle = "Personal Info";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ft.fragmentVisible(fragmentTitle);
-        v = inflater.inflate(R.layout.fragment_2, container, false);
-        Button b_next = v.findViewById(R.id.next_button2);
+        v = inflater.inflate(R.layout.fragment_1, container, false);
+        Button b_next = v.findViewById(R.id.next_button);
         b_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ft.goNext();
-            }
-        });
-
-        Button b_back = v.findViewById(R.id.back_button2);
-        b_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ft.goBack();
             }
         });
         return v;
@@ -50,11 +42,9 @@ public class Fragment2 extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        EditText zip = v.findViewById(R.id.zip);
-        EditText city = v.findViewById(R.id.city);
-//        if (city != null && city.getText() != null && zip != null && zip.getText() != null) {
-            ft.saveCityAndZip(city.getText().toString(), zip.getText().toString());
-//        }
+        EditText uname = v.findViewById(R.id.u_name);
+        EditText lname = v.findViewById(R.id.u_lastname);
+        ft.saveNameAndLastName(uname.getText().toString(), lname.getText().toString());
         v = null;
     }
 }
