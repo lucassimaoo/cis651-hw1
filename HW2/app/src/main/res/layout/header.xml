@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="190dp" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:background="@drawable/banner">
+
+    <ImageView
+        android:layout_width="86dp"
+        android:layout_height="86dp" android:src="@drawable/me_pic" android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true" android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp" android:id="@+id/profile"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:id="@+id/name" android:text="Lucas Silva"
+        android:layout_alignBottom="@+id/profile"/>
+
+
+</RelativeLayout>
