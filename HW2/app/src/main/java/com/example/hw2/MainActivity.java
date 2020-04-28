@@ -6,8 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
@@ -40,6 +43,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.item1:
+                FragmentManager sfm = getSupportFragmentManager();
+                FragmentTransaction t = sfm.beginTransaction();
+                t.replace(R.id.detailFragment, new AboutFragment());
+                t.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                t.commit();
                 break;
             case R.id.item2:
                 break;

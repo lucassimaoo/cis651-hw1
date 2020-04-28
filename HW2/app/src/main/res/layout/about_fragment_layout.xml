@@ -1,0 +1,34 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:padding="8dp">
+    <ImageView
+        android:id="@+id/profile_frag"
+        android:layout_height="100dp"
+        android:layout_width="100dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/me_pic"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/name_frag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/profile_frag"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Name: Lucas Silva"/>
+
+    <TextView
+        android:id="@+id/course_frag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/name_frag"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Course: CIS651"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
