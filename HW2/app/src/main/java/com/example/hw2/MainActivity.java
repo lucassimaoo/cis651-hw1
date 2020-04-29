@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 t.commit();
                 break;
             case R.id.item2:
+                Intent intent = new Intent(this, ViewPagerActivity.class);
+                startActivity(intent);
                 break;
             case R.id.item3:
                 break;
