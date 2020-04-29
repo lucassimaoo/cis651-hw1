@@ -3,8 +3,8 @@
     <group android:checkableBehavior="single">
 
         <item android:id="@+id/item1" android:icon="@drawable/about" android:title="About me"/>
-        <item android:id="@+id/item2" android:icon="@drawable/movie" android:title="Task 2"/>
-        <item android:id="@+id/item3" android:icon="@drawable/detail" android:title="Task 3"/>
+        <item android:id="@+id/item2" android:icon="@drawable/movie" android:title="ViewPager"/>
+        <item android:id="@+id/item3" android:icon="@drawable/detail" android:title="MasterDetail"/>
 
     </group>
 </menu>
