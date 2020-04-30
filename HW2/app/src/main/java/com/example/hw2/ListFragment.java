@@ -1,6 +1,8 @@
 package com.example.hw2;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +22,16 @@ import java.util.Map;
 
 public class ListFragment extends Fragment {
 
+    private Activity ac;
+    public ListFragment(Activity ac) {
+        this.ac = ac;
+    }
+
     private MovieData md = new MovieData();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.master, container, false);
+        final View v = inflater.inflate(R.layout.master, container, false);
 
         ListView listView = v.findViewById(R.id.list_view);
 
@@ -45,12 +52,13 @@ public class ListFragment extends Fragment {
                 MovieDetailFragment frag = MovieDetailFragment.newInstance((int) map.get("image"), map.get("name").toString(), map.get("year").toString(),
                         Float.parseFloat(map.get("rating").toString()), map.get("description").toString());
 
-                if (container.findViewById(R.id.detail_container) != null) {
+                if (ac.findViewById(R.id.detail_container) != null) {
                     t.replace(R.id.detail_container, frag);
                 } else {
                     t.replace(R.id.main_container, frag);
                 }
 
+                t.addToBackStack(null);
                 t.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                 t.commit();
             }
