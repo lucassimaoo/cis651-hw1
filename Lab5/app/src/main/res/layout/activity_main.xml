@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button android:layout_height="wrap_content"
+        android:id="@+id/next_activity"
+        android:layout_width="match_parent" android:text="Next activity"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:transitionName="newActivity" android:onClick="newActivity"/>
+
+    <Button android:layout_height="wrap_content"
+        android:id="@+id/move_rotate"
+        android:layout_width="match_parent" android:text="Move and rotate"
+        app:layout_constraintTop_toBottomOf="@+id/next_activity"
+        app:layout_constraintLeft_toLeftOf="parent" android:onClick="moveRotate"/>
+
+    <Button android:layout_height="wrap_content"
+        android:id="@+id/move_back"
+        android:layout_width="match_parent" android:text="Move back"
+        app:layout_constraintTop_toBottomOf="@+id/move_rotate"
+        app:layout_constraintLeft_toLeftOf="parent" android:onClick="moveBack"/>
+
+    <Button android:layout_height="wrap_content"
+        android:id="@+id/fade_out"
+        android:layout_width="match_parent" android:text="Fade out"
+        app:layout_constraintTop_toBottomOf="@+id/move_back"
+        app:layout_constraintLeft_toLeftOf="parent" android:onClick="fadeOut"/>
+
+    <Button android:layout_height="wrap_content"
+        android:id="@+id/fade_in"
+        android:layout_width="match_parent" android:text="Fade in"
+        app:layout_constraintTop_toBottomOf="@+id/fade_out"
+        app:layout_constraintLeft_toLeftOf="parent" android:onClick="fadeIn"/>
+
+    <Button android:layout_height="wrap_content"
+        android:id="@+id/xml_animator"
+        android:layout_width="match_parent" android:text="Xml animator"
+        app:layout_constraintTop_toBottomOf="@+id/fade_in"
+        app:layout_constraintLeft_toLeftOf="parent" android:onClick="xmlAnimator"/>
+
+    <ImageView
+        android:scaleType="centerCrop"
+        android:layout_width="80dp"
+        android:layout_height="120dp" android:id="@+id/image"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/xml_animator" android:src="@drawable/dark_knight"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
