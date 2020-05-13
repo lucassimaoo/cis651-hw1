@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         recyclerView = findViewById(R.id.mainRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.scrollToPosition(0);
         recyclerView.setLayoutManager(layoutManager);
         adapter.setOnListItemClickListener(new OnListItemClickListener() {

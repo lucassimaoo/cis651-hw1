@@ -53,7 +53,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.name.setText(md_filtered.get(position).get("name").toString());
-        holder.year.setText(md_filtered.get(position).get("year").toString());
+        holder.desc.setText(md_filtered.get(position).get("description").toString());
         holder.poster.setImageResource(Integer.parseInt(md_filtered.get(position).get("image").toString()));
     }
 
@@ -93,12 +93,12 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView year;
+        public TextView desc;
         public TextView name;
         public ImageView poster;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            year = (TextView) itemView.findViewById(R.id.movie_year);
+            desc = (TextView) itemView.findViewById(R.id.movie_desc);
             name = (TextView) itemView.findViewById(R.id.movie_name);
             poster = (ImageView) itemView.findViewById(R.id.poster_photo);
         }
