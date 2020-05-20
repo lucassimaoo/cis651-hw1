@@ -1,6 +1,5 @@
 package com.example.lab4;
 
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,15 +19,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +35,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     private RequestQueue requestQueue;
     private List<Map<String, ?>> md;
 
-    private List<Movie> movies;
+    private List<Movie> movies = new ArrayList<>();
 
     private List<Map<String, ?>> md_filtered;
     private OnListItemClickListener onListItemClickListener;
@@ -117,16 +113,24 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         return viewHolder;
     }
 
+//    @Override
+//    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+//        holder.name.setText(md_filtered.get(position).get("name").toString());
+//        holder.desc.setText(md_filtered.get(position).get("description").toString());
+//        holder.poster.setImageResource(Integer.parseInt(md_filtered.get(position).get("image").toString()));
+//    }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.name.setText(md_filtered.get(position).get("name").toString());
-        holder.desc.setText(md_filtered.get(position).get("description").toString());
-        holder.poster.setImageResource(Integer.parseInt(md_filtered.get(position).get("image").toString()));
+        holder.name.setText(movies.get(position).getTitle());
+        holder.desc.setText(movies.get(position).getDescription());
+//        holder.poster.setImageResource(Integer.parseInt(md_filtered.get(position).get("image").toString()));
     }
 
     @Override
     public int getItemCount() {
-        return md_filtered.size();
+//        return md_filtered.size();
+        return movies.size();
     }
 
     @Override
