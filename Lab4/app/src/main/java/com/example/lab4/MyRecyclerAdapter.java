@@ -1,5 +1,6 @@
 package com.example.lab4;
 
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,20 +15,69 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> implements Filterable {
 
+    private RequestQueue requestQueue;
     private List<Map<String, ?>> md;
+
+    private List<Movie> movies;
+
     private List<Map<String, ?>> md_filtered;
     private OnListItemClickListener onListItemClickListener;
     private MainActivity mainActivity;
+    private ObjectMapper mapper = new ObjectMapper();
 
-    public MyRecyclerAdapter(List<Map<String, ?>> list, MainActivity mainActivity) {
+    public MyRecyclerAdapter(List<Map<String, ?>> list, final MainActivity mainActivity) {
         this.md = md_filtered = list;
         this.mainActivity = mainActivity;
+
+        requestQueue = Volley.newRequestQueue(mainActivity.getApplicationContext());
+
+        String url ="http://192.168.56.1:8080/movies";
+
+        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
+            (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+
+                    try {
+                        movies = mapper.readValue(response.toString(),
+                                new TypeReference<List<Movie>>() {});
+
+                    } catch (JsonProcessingException e) {
+                        Toast.makeText(mainActivity, "Failed to parse movie list", Toast.LENGTH_LONG).show();
+                    }
+
+                    response.toString();
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(mainActivity, "Failed to get movie list", Toast.LENGTH_LONG).show();
+                }
+            });
+
+        requestQueue.add(jsonObjectRequest);
     }
 
     @NonNull
@@ -64,7 +114,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             }
         });
 
-//
         return viewHolder;
     }
 

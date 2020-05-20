@@ -21,15 +21,17 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MyRecyclerAdapter adapter = new MyRecyclerAdapter(new MovieData().getMoviesList(), this);
+    private MyRecyclerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+
+        adapter = new MyRecyclerAdapter(new MovieData().getMoviesList(), this);
 
         FragmentManager sfm = getSupportFragmentManager();
         FragmentTransaction t = sfm.beginTransaction();
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getApplicationContext(), "Query text=" + query, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Query text=" + query, Toast.LENGTH_SHORT).show();
                 adapter.getFilter().filter(query);
                 return true;
             }
