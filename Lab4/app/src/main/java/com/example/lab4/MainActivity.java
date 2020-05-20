@@ -19,9 +19,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private MovieData md = new MovieData();
-    private MyRecyclerAdapter adapter = new MyRecyclerAdapter(md.getMoviesList());
+    private MyRecyclerAdapter adapter = new MyRecyclerAdapter(new MovieData().getMoviesList());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +28,13 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+
+        FragmentManager sfm = getSupportFragmentManager();
+        FragmentTransaction t = sfm.beginTransaction();
+        MovieListFragment frag = new MovieListFragment(adapter, this);
+        t.replace(R.id.detailFragment, frag);
+        t.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+        t.commit();
     }
 
     @Override
@@ -57,40 +62,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        recyclerView = findViewById(R.id.mainRecyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        layoutManager.scrollToPosition(0);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter.setOnListItemClickListener(new OnListItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-                Map map = adapter.getItem(position);
-                FragmentManager sfm = getSupportFragmentManager();
-                FragmentTransaction t = sfm.beginTransaction();
-                MovieDetailFragment frag = MovieDetailFragment.newInstance((int) map.get("image"), map.get("name").toString(), map.get("year").toString(),
-                        Float.parseFloat(map.get("rating").toString()), map.get("description").toString());
 
-                t.replace(R.id.detailFragment, frag);
-                t.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                t.commit();
-
-            }
-
-            @Override
-            public void onItemLongClick(View v, int position) {
-                Map map = adapter.getItem(position);
-                FragmentManager sfm = getSupportFragmentManager();
-                FragmentTransaction t = sfm.beginTransaction();
-                MovieDetailFragment frag = MovieDetailFragment.newInstance((int) map.get("image"), map.get("name").toString(), map.get("year").toString(),
-                        Float.parseFloat(map.get("rating").toString()), map.get("description").toString());
-
-                t.replace(R.id.detailFragment, frag);
-                t.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                t.commit();
-            }
-        });
-        recyclerView.setAdapter(adapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 }

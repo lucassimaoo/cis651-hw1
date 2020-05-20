@@ -15,16 +15,12 @@
         android:elevation="4dp"
         android:theme="@style/Widget.AppCompat.Light.ActionBar">
     </androidx.appcompat.widget.Toolbar>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mainRecyclerView"
-        app:layout_constraintTop_toBottomOf="@id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </androidx.recyclerview.widget.RecyclerView>
+
     <LinearLayout
         android:orientation="horizontal"
         android:id="@+id/detailFragment"
-        app:layout_constraintTop_toBottomOf="@id/mainRecyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </LinearLayout>
