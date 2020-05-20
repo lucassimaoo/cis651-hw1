@@ -1,12 +1,15 @@
 package com.example.lab4;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,9 +23,11 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     private List<Map<String, ?>> md;
     private List<Map<String, ?>> md_filtered;
     private OnListItemClickListener onListItemClickListener;
+    private MainActivity mainActivity;
 
-    public MyRecyclerAdapter(List<Map<String, ?>> list) {
-        md = md_filtered = list;
+    public MyRecyclerAdapter(List<Map<String, ?>> list, MainActivity mainActivity) {
+        this.md = md_filtered = list;
+        this.mainActivity = mainActivity;
     }
 
     @NonNull
@@ -38,15 +43,28 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 }
             }
         });
-        v.setOnLongClickListener(new View.OnLongClickListener() {
+
+        v.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
-            public boolean onLongClick(View v) {
-                if(onListItemClickListener != null) {
-                    onListItemClickListener.onItemLongClick(v, viewHolder.getAdapterPosition());
-                }
-                return true;
+            public void onCreateContextMenu(ContextMenu menu, final View view, ContextMenu.ContextMenuInfo menuInfo) {
+                menu.add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Toast.makeText(mainActivity, "del " + viewHolder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+                menu.add("Duplicate").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Toast.makeText(mainActivity, "dup " + viewHolder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
             }
         });
+
+//
         return viewHolder;
     }
 

@@ -45,7 +45,6 @@ public class MovieListFragment extends Fragment {
         adapter.setOnListItemClickListener(new OnListItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-//                mainActivity.findViewById(R.id.my_toolbar).setVisibility(View.INVISIBLE);
                 Map map = adapter.getItem(position);
                 FragmentManager sfm = getFragmentManager();
                 FragmentTransaction t = sfm.beginTransaction();
@@ -57,11 +56,6 @@ public class MovieListFragment extends Fragment {
                 t.addToBackStack(null);
                 t.commit();
 
-            }
-
-            @Override
-            public void onItemLongClick(View v, int position) {
-                //TODO implement context menu
             }
         });
         recyclerView.setAdapter(adapter);

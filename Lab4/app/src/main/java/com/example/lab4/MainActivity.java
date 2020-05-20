@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
@@ -19,7 +21,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MyRecyclerAdapter adapter = new MyRecyclerAdapter(new MovieData().getMoviesList());
+    private MyRecyclerAdapter adapter = new MyRecyclerAdapter(new MovieData().getMoviesList(), this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
