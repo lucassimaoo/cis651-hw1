@@ -8,8 +8,17 @@ group = 'com.master.mobile'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+configurations.all {
+	exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+	exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+	exclude group: 'ch.qos.logback', module: 'logback-core'
+	exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+}
+
+
 repositories {
 	mavenCentral()
+	maven { url 'http://repo.frg.tech/artifactory/all-maven-repos' }
 }
 
 dependencies {
@@ -19,6 +28,20 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	
+	//argos
+	implementation 'com.fanatics.argos.java:argos-logger:0.3.3'
+	implementation 'org.apache.kafka:kafka_2.11:2.4.1'
+	implementation("org.apache.logging.log4j:log4j-api:2.8.2")
+	implementation("org.apache.logging.log4j:log4j-core:2.8.2")
+	implementation("com.lmax:disruptor:3.3.9")
+	implementation("org.springframework.boot:spring-boot-starter-log4j2")
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.8.1'
+	implementation("com.fanatics.juno:juno-metadata:1.1.0-SNAPSHOT")
+	
+	//actuator
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
 }
 
 test {

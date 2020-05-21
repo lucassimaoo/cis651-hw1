@@ -1,0 +1,29 @@
+argos:
+  argosLoggerConfiguration:
+    loggerTunableConfig:
+      log4j.shutdownHookEnabled: true
+      log4j.shutdownCallbackRegistry: org.apache.logging.log4j.core.util.DefaultShutdownCallbackRegistry
+      AsyncLogger.RingBufferSize: 256*1024
+      java.library.path: /opt/lib
+  argosPublisherConfiguration:
+    kafkaConfig:
+      bootstrap.servers: master.argos-kafka.service.us-east-1.dynamic.dev.frgcloud.com:9092
+      key.serializer: org.apache.kafka.common.serialization.StringSerializer
+      value.serializer: org.apache.kafka.common.serialization.StringSerializer
+      compression.type: snappy
+      acks: 1
+      producer.type: async
+      retries: 0
+      metadata.fetch.timeout.ms: 500
+      timeout.ms: 500
+    logtypeTopicConfig:
+      event: ArgosEvent
+      span: ArgosEvent
+      heartbeat: ArgosHeartbeat
+    topicConfig:
+      ArgosEvent:
+        partitions: 100
+        keys.for.partition: si
+      ArgosHeartbeat:
+        partitions: 10
+        keys.for.partition: si
