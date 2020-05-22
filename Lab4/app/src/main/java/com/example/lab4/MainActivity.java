@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
-        adapter = new MyRecyclerAdapter(new MovieData().getMoviesList(), this);
+        adapter = new MyRecyclerAdapter(this);
 
         FragmentManager sfm = getSupportFragmentManager();
         FragmentTransaction t = sfm.beginTransaction();

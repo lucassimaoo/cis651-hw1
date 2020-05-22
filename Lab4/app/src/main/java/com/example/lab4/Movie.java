@@ -18,6 +18,7 @@ public class Movie {
 
     private String description;
 
+    private String stars;
 
     public String getId() {
         return id;
@@ -81,5 +82,13 @@ public class Movie {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getStars() {
+        return stars;
+    }
+
+    public void setStarts(String stars) {
+        this.stars = stars;
     }
 }

@@ -45,11 +45,10 @@ public class MovieListFragment extends Fragment {
         adapter.setOnListItemClickListener(new OnListItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                Map map = adapter.getItem(position);
+                Movie movie = adapter.getItem(position);
                 FragmentManager sfm = getFragmentManager();
                 FragmentTransaction t = sfm.beginTransaction();
-                MovieDetailFragment frag = MovieDetailFragment.newInstance((int) map.get("image"), map.get("name").toString(), map.get("year").toString(),
-                        Float.parseFloat(map.get("rating").toString()), map.get("description").toString());
+                MovieDetailFragment frag = MovieDetailFragment.newInstance(movie, adapter);
 
                 t.replace(R.id.detailFragment, frag);
                 t.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);

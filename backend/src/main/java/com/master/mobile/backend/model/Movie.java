@@ -21,6 +21,8 @@ public class Movie {
 
   private String length;
 
+  private String stars;
+
   private String description;
 
   public Movie() {
@@ -28,7 +30,7 @@ public class Movie {
   }
 
   public Movie(String title, String yearMade, String director, Double rating, String url, String length,
-    String description) {
+    String description, String stars) {
     this.title = title;
     this.yearMade = yearMade;
     this.director = director;
@@ -36,6 +38,7 @@ public class Movie {
     this.url = url;
     this.length = length;
     this.description = description;
+    this.stars = stars;
   }
 
   public String getTitle() {
@@ -100,5 +103,13 @@ public class Movie {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public String getStars() {
+    return stars;
+  }
+
+  public void setStars(String stars) {
+    this.stars = stars;
   }
 }
