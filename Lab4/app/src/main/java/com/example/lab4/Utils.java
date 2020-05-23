@@ -125,17 +125,18 @@ public class ImageDownload {
 
 
     // Send json data via HTTP POST Request
-    public static void sendHttPostRequest(String urlString, JSONObject json){
+    public static void sendHttPostRequest(String urlString, String json){
         HttpURLConnection httpConnection = null;
         try {
             URL url = new URL(urlString);
             httpConnection = (HttpURLConnection) url.openConnection();
+            httpConnection.addRequestProperty("Content-Type", "application/json");
 
             httpConnection.setDoOutput(true);
             httpConnection.setChunkedStreamingMode(0);
 
             OutputStreamWriter out = new OutputStreamWriter(httpConnection.getOutputStream());
-            out.write(json.toString());
+            out.write(json);
             out.close();
 
             if (httpConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -147,7 +148,7 @@ public class ImageDownload {
                 }
                 reader.close();
                 Log.d("MyDebugMsg:PostRequest", "POST request returns ok");
-            } else Log.d("MyDebugMsg:PostRequest", "POST request returns error");
+            } else Log.d("MyDebugMsg:PostRequest", "POST request returns error " + httpConnection.getResponseCode());
         } catch (Exception ex) {
             Log.d("MyDebugMsg", "Exception in sendHttpPostRequest");
             ex.printStackTrace();
