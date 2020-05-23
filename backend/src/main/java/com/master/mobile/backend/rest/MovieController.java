@@ -1,5 +1,6 @@
 package com.master.mobile.backend.rest;
 
+import com.master.mobile.backend.MovieData;
 import com.master.mobile.backend.model.Movie;
 import com.master.mobile.backend.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,10 @@ public class MovieController {
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Movie> getMovies() {
+
+    //hydrate all movies in database
+//    repository.saveAll(new MovieData().getMoviesList());
+
     return  StreamSupport.stream(repository.findAll().spliterator(), false)
       .collect(Collectors.toList());
   }
