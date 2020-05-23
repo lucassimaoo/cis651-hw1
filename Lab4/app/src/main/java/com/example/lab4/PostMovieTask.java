@@ -38,6 +38,5 @@ public class PostMovieTask extends AsyncTask<String, Void, Void> {
     protected void onPostExecute(Void result) {
         adapter.getMd_filtered().add(movie);
         adapter.notifyItemChanged(adapter.getMd_filtered().size() - 1);
-        adapter.getRv().scrollToPosition(adapter.getMd_filtered().size() - 1);
     }
 }
