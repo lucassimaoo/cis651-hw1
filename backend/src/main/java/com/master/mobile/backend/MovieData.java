@@ -209,7 +209,7 @@ public class MovieData {
     rating = 8.9;
     director = "Peter Jackson" ;
     stars = "Elijah Wood, Viggo Mortensen, Ian McKellen";
-    url ="https://ia.media-imdb.com/images/M/MV5BMjE4MjA1NTAyMV5BMl5BanBnXkFtZTcwNzM1NDQyMQ@@._V1_SX214_AL_.jpg";
+    url ="https://m.media-amazon.com/images/M/MV5BNzA5ZDNlZWMtM2NhNS00NDJjLTk4NDItYTRmY2EwMWZlMTY3XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SY1000_CR0,0,675,1000_AL_.jpg";
     description = "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.";
     moviesList.add(createMovie("The Lord of the Rings: The Return of the King", "rings", description, year, length, rating, director, stars, url));
     year = "2004";
@@ -265,7 +265,7 @@ public class MovieData {
     rating = 8.8;
     director = "Robert Zemeckis" ;
     stars = "Tom Hanks, Robin Wright, Gary Sinise";
-    url ="https://ia.media-imdb.com/images/M/MV5BMTQwMTA5MzI1MF5BMl5BanBnXkFtZTcwMzY5Mzg3OA@@._V1_SX214_AL_.jpg";
+    url ="https://m.media-amazon.com/images/M/MV5BNWIwODRlZTUtY2U3ZS00Yzg1LWJhNzYtMmZiYmEyNmU1NjMzXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg";
     description = "Forrest Gump, while not intelligent, has accidentally been present at many historic moments, but his true love, Jenny Curran, eludes him.";
     moviesList.add(createMovie("Forrest Gump", "forrest_gump", description, year, length, rating, director, stars, url));
   }

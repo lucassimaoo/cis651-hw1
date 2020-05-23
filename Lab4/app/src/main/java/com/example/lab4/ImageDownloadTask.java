@@ -2,7 +2,6 @@ package com.example.lab4;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.view.View;
 import android.widget.ImageView;
 
 public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
@@ -17,7 +16,7 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(String... url) {
-        Bitmap image = ImageDownload.downloadImageusingHTTPGetRequest(url[0]);
+        Bitmap image = Utils.downloadImageusingHTTPGetRequest(url[0]);
         adapter.getImageCache().put(url[0], image);
         return image;
     }

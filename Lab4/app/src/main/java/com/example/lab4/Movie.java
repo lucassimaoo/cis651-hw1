@@ -88,7 +88,7 @@ public class Movie {
         return stars;
     }
 
-    public void setStarts(String stars) {
+    public void setStars(String stars) {
         this.stars = stars;
     }
 }

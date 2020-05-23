@@ -54,13 +54,10 @@ public class MovieListFragment extends Fragment {
                 t.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                 t.addToBackStack(null);
                 t.commit();
-
             }
         });
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-
 
         return v;
     }

@@ -19,7 +19,7 @@ import java.net.UnknownHostException;
 /**
  * Revised by kevin on 3/9/2016.
  */
-public class ImageDownload {
+public class Utils {
 
     // Download an image using HTTP Get Request
     public static Bitmap downloadImageusingHTTPGetRequest(String urlString) {

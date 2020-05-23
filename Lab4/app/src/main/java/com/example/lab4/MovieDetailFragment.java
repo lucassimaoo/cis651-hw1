@@ -2,7 +2,6 @@ package com.example.lab4;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,8 +63,9 @@ public class MovieDetailFragment extends Fragment {
                             Bitmap image = adapter.getImageCache().get(m.getUrl());
                             i.setImageBitmap(image);
 
-                            TextView t = v.findViewById(R.id.title_text);
+                            EditText t = v.findViewById(R.id.title_text);
                             t.setText(m.getTitle());
+                            t.requestFocus();
 
                             TextView y = v.findViewById(R.id.year_text);
                             y.setText(m.getYearMade());
@@ -86,10 +86,8 @@ public class MovieDetailFragment extends Fragment {
                             length.setText(m.getLength());
 
                         } catch (JsonProcessingException e) {
-                            Toast.makeText(getActivity(), "Failed to movie", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Failed to parse movie", Toast.LENGTH_LONG).show();
                         }
-
-                        response.toString();
                     }
                 }, new Response.ErrorListener() {
 

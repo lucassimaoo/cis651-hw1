@@ -39,8 +39,10 @@ public class MovieController {
   }
 
   @DeleteMapping(value="/id/{id}")
-  public void deleteMovieById(@PathVariable("id") String id) {
+  public Movie deleteMovieById(@PathVariable("id") String id) {
+    Movie m = repository.findById(id).orElse(null);
     repository.deleteById(id);
+    return m;
   }
 
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
