@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="professions_array">
+        <item>Select a profession</item>
+        <item>Doctor</item>
+        <item>Nurse</item>
+        <item>Physiotherapist</item>
+    </string-array>
+</resources>

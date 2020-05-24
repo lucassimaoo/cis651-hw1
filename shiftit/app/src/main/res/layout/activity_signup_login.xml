@@ -24,6 +24,15 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="Password"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/password"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" android:hint="Name"
             android:id="@+id/name_w"
             >
@@ -41,14 +50,18 @@
                 android:layout_height="wrap_content" android:id="@+id/phone"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <Spinner
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:hint="Password"
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/password"/>
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content" android:id="@+id/profession"
+            android:spinnerMode="dialog" android:paddingTop="10dp" android:paddingBottom="10dp"
+            />
+
+        <com.example.shiftit.MultiSelectionSpinner
+            android:id="@+id/hospitals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:paddingTop="10dp" android:paddingBottom="10dp"/>
 
         <Button
             android:layout_width="match_parent"

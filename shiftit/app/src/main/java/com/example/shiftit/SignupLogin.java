@@ -2,9 +2,14 @@ package com.example.shiftit;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +23,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class SignupLogin extends AppCompatActivity {
 
     private FirebaseAuth auth;
@@ -29,6 +38,8 @@ public class SignupLogin extends AppCompatActivity {
     private EditText name;
     private EditText phone;
     private Button signup;
+    private Spinner profession;
+    private MultiSelectionSpinner hospitalSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +54,39 @@ public class SignupLogin extends AppCompatActivity {
         name = findViewById(R.id.name);
         phone = findViewById(R.id.phone);
         signup = findViewById(R.id.signup);
+
+        profession = findViewById(R.id.profession);
+        profession.setPrompt("Select a profession");
+
+        final CharSequence[] strings = this.getResources().getTextArray(R.array.professions_array);
+
+        List<String> professions = new ArrayList<>();
+        for (CharSequence string : strings) {
+            professions.add(string.toString());
+        }
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, 0, professions);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        profession.setAdapter(adapter);
+        profession.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                adapter.remove("Select a profession");
+                return false;
+            }
+        });
+
+        ArrayList<String> hospitals = new ArrayList<>();
+        hospitals.add("Hospital 1");
+        hospitals.add("Hospital 2");
+        hospitals.add("Hospital 3");
+        hospitals.add("Hospital 4");
+        hospitals.add("Hospital 5");
+
+        hospitalSpinner = findViewById(R.id.hospitals);
+        hospitalSpinner.setItems(hospitals, "Select hospitals");
+        
         updateUI();
     }
 
@@ -55,6 +99,7 @@ public class SignupLogin extends AppCompatActivity {
     }
 
     public void signup(View view) {
+
         if (email.getText().toString().trim().isEmpty() || password.getText().toString().trim().isEmpty()
                 || phone.getText().toString().trim().isEmpty() ||
                 name.getText().toString().trim().isEmpty()) {
@@ -73,7 +118,7 @@ public class SignupLogin extends AppCompatActivity {
                                     Toast.makeText(SignupLogin.this, "Signup successful. Verification email Sent!", Toast.LENGTH_SHORT).show();
 
                                     User user = new User(currentUser.getUid(), name.getText().toString(), email.getText().toString(),
-                                            phone.getText().toString(), null, null);
+                                            phone.getText().toString(), null, profession.getSelectedItem().toString());
 
                                     repository.save(user);
                                     updateUI();
