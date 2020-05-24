@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "350170039277",
+    "firebase_url": "https://shiftit-7bcd9.firebaseio.com",
+    "project_id": "shiftit-7bcd9",
+    "storage_bucket": "shiftit-7bcd9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350170039277:android:e335edd10cb0b1eca99de4",
+        "android_client_info": {
+          "package_name": "com.example.shiftit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "350170039277-akc253htpa3pn95hh1kupvdrk1b6ge2p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxzjhOz_vzyDoB4L4_Qg3X534MCon84Ok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "350170039277-akc253htpa3pn95hh1kupvdrk1b6ge2p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
