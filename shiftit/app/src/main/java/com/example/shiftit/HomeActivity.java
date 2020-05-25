@@ -1,5 +1,6 @@
 package com.example.shiftit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -49,6 +50,10 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.signout:
                 auth.signOut();
                 finish();
+                return true;
+            case R.id.newshift:
+                Intent intent = new Intent(this, NewShiftActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

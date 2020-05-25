@@ -19,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // initializing database
+        Repository.getInstance();
         FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {

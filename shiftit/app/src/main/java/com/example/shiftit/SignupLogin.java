@@ -31,7 +31,7 @@ public class SignupLogin extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-    private Repository repository = Repository.getInstance();
+    private Repository repository;
 
     private EditText email;
     private EditText password;
@@ -40,11 +40,14 @@ public class SignupLogin extends AppCompatActivity {
     private Button signup;
     private Spinner profession;
     private MultiSelectionSpinner hospitalSpinner;
+    private boolean isSignUp = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_login);
+
+        repository = Repository.getInstance();
 
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
@@ -86,7 +89,13 @@ public class SignupLogin extends AppCompatActivity {
 
         hospitalSpinner = findViewById(R.id.hospitals);
         hospitalSpinner.setItems(hospitals, "Select hospitals");
-        
+
+        //entering in login mode by default, hiding other fields
+        findViewById(R.id.name_w).setVisibility(View.GONE);
+        findViewById(R.id.phone_w).setVisibility(View.GONE);
+        profession.setVisibility(View.GONE);
+        hospitalSpinner.setVisibility(View.GONE);
+
         updateUI();
     }
 
@@ -94,50 +103,60 @@ public class SignupLogin extends AppCompatActivity {
         if (currentUser != null) {
             findViewById(R.id.name_w).setVisibility(View.GONE);
             findViewById(R.id.phone_w).setVisibility(View.GONE);
+            profession.setVisibility(View.GONE);
+            hospitalSpinner.setVisibility(View.GONE);
             signup.setVisibility(View.GONE);
         }
     }
 
     public void signup(View view) {
 
-        if (email.getText().toString().trim().isEmpty() || password.getText().toString().trim().isEmpty()
-                || phone.getText().toString().trim().isEmpty() ||
-                name.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please provide all information", Toast.LENGTH_SHORT).show();
-            return;
+        if (!isSignUp) {
+            findViewById(R.id.name_w).setVisibility(View.VISIBLE);
+            findViewById(R.id.phone_w).setVisibility(View.VISIBLE);
+            profession.setVisibility(View.VISIBLE);
+            hospitalSpinner.setVisibility(View.VISIBLE);
+            isSignUp = true;
+        } else {
+            if (email.getText().toString().trim().isEmpty() || password.getText().toString().trim().isEmpty()
+                    || phone.getText().toString().trim().isEmpty() ||
+                    name.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Please provide all information", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            auth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                    .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            currentUser = authResult.getUser();
+                            currentUser.sendEmailVerification().addOnSuccessListener(SignupLogin.this, new
+                                    OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(SignupLogin.this, "Signup successful. Verification email Sent!", Toast.LENGTH_SHORT).show();
+
+                                            User user = new User(currentUser.getUid(), name.getText().toString(), email.getText().toString(),
+                                                    phone.getText().toString(), hospitalSpinner.getSelectedItems(), profession.getSelectedItem().toString());
+
+                                            repository.save(user);
+                                            updateUI();
+                                        }
+                                    }).addOnFailureListener(SignupLogin.this, new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(SignupLogin.this, e.getMessage(),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(this, new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SignupLogin.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
-        auth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        currentUser = authResult.getUser();
-                        currentUser.sendEmailVerification().addOnSuccessListener(SignupLogin.this, new
-                                OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                    Toast.makeText(SignupLogin.this, "Signup successful. Verification email Sent!", Toast.LENGTH_SHORT).show();
-
-                                    User user = new User(currentUser.getUid(), name.getText().toString(), email.getText().toString(),
-                                            phone.getText().toString(), null, profession.getSelectedItem().toString());
-
-                                    repository.save(user);
-                                    updateUI();
-                                    }
-                                }).addOnFailureListener(SignupLogin.this, new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(SignupLogin.this, e.getMessage(),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                })
-                .addOnFailureListener(this, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(SignupLogin.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     public void reset(View view) {

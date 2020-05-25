@@ -1,5 +1,6 @@
 package com.example.lab7;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         usersRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                Log.d("onChildAdded", "onChildAdded");
                 User userModel = new
                         User(dataSnapshot.child("displayname").getValue().toString(),
                         dataSnapshot.child("email").getValue().toString(),

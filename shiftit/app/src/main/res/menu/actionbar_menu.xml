@@ -3,8 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         app:showAsAction="always"
+        android:id="@+id/newshift"
+        android:title="Create new shift"
+        android:icon="@drawable/newshift">
+    </item>
+    <item
+        app:showAsAction="always"
         android:id="@+id/signout"
         android:title="Sign Out"
         android:icon="@drawable/logout">
     </item>
+
 </menu>
