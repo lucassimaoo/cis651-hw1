@@ -27,13 +27,13 @@ import java.util.List;
 
 public class NewShiftActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
+    private static SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm");
     private Repository repository;
     private Spinner hospital;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private User user;
     private Calendar date;
-    private SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm");
     private EditText hours;
 
     @Override
@@ -89,12 +89,13 @@ public class NewShiftActivity extends AppCompatActivity implements DatePickerDia
     public void create(View view) {
         //TODO add validation
         Shift shift = new Shift(currentUser.getUid(), date.getTime(),
-                Integer.valueOf(hours.getText().toString()), hospital.getSelectedItem().toString());
+                Integer.valueOf(hours.getText().toString()), hospital.getSelectedItem().toString(), user.getProfession());
         repository.save(shift);
+        finish();
     }
 
     public void cancel(View view) {
-        startActivity(new Intent(this, HomeActivity.class));
+        finish();
     }
 
     @Override

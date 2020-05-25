@@ -7,21 +7,24 @@ import java.util.Date;
 public class Shift {
 
     private String uid;
+    private String id;
     private Date date;
     private Integer hours;
     private String hospital;
     private String takerUid;
+    private String profession;
     private Object timestamp = ServerValue.TIMESTAMP;
 
-    public Shift(String uid, Date date, Integer hours, String hospital) {
+    public Shift(String uid, Date date, Integer hours, String hospital, String profession) {
         this.uid = uid;
         this.date = date;
         this.hours = hours;
         this.hospital = hospital;
+        this.profession = profession;
     }
 
     public Shift() {
-        
+
     }
 
     public String getUid() {
@@ -66,5 +69,21 @@ public class Shift {
 
     public void setTakerUid(String takerUid) {
         this.takerUid = takerUid;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

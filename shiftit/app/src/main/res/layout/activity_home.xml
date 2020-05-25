@@ -6,4 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
+    <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/title_page"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Open shifts - click to take them to yourself"
+        android:paddingLeft="10dp" android:paddingTop="5dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recylcer_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_page" android:paddingTop="20dp"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
