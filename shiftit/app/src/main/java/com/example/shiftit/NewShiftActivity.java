@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -33,6 +34,7 @@ public class NewShiftActivity extends AppCompatActivity implements DatePickerDia
     private User user;
     private Calendar date;
     private SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+    private EditText hours;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,8 @@ public class NewShiftActivity extends AppCompatActivity implements DatePickerDia
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hospital.setAdapter(adapter);
+
+        hours = findViewById(R.id.hours);
     }
 
     @Override
@@ -83,7 +87,10 @@ public class NewShiftActivity extends AppCompatActivity implements DatePickerDia
     }
 
     public void create(View view) {
-
+        //TODO add validation
+        Shift shift = new Shift(currentUser.getUid(), date.getTime(),
+                Integer.valueOf(hours.getText().toString()), hospital.getSelectedItem().toString());
+        repository.save(shift);
     }
 
     public void cancel(View view) {
