@@ -50,7 +50,13 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
         holder.name_view.setText("Requester: " + repository.getUser(shift.getUid()).getName());
         holder.date_view.setText("Date: " + format.format(shift.getDate()));
         holder.hospital_view.setText("Hospital: " + shift.getHospital());
-        holder.hours_view.setText("Hours: "+ shift.getHours());
+        holder.hours_view.setText("Hours: " + shift.getHours());
+        if (shift.getTakerUid() != null) {
+            holder.taker_view.setText("Assigned to: " + repository.getUser(shift.getTakerUid()).getName());
+        } else {
+            holder.taker_view.setVisibility(View.GONE);
+        }
+
 
     }
     @Override
@@ -62,12 +68,14 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
         public TextView date_view;
         public TextView hospital_view;
         public TextView hours_view;
+        public TextView taker_view;
         public ViewHolder(View v){
             super(v);
             name_view = v.findViewById(R.id.name_view);
             date_view = v.findViewById(R.id.date_view);
             hospital_view =  v.findViewById(R.id.hospital_view);
             hours_view = v.findViewById(R.id.hours_view);
+            taker_view = v.findViewById(R.id.taker_view);
         }
     }
 

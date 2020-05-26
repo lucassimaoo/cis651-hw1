@@ -23,25 +23,31 @@
             android:id="@+id/name_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
-        </TextView>
+            />
+
         <TextView
             android:id="@+id/date_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
-        </TextView>
+            />
+
         <TextView
             android:id="@+id/hospital_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
-        </TextView>
+            />
+
         <TextView
             android:id="@+id/hours_view"
             android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
-    </TextView>
+        />
+
+        <TextView
+            android:id="@+id/taker_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
 </LinearLayout>
 </androidx.cardview.widget.CardView>

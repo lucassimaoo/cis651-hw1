@@ -8,7 +8,6 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,9 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class NewShiftActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -122,8 +119,13 @@ public class NewShiftActivity extends AppCompatActivity implements DatePickerDia
                 finish();
                 return true;
             case R.id.newshift:
-                Intent intent = new Intent(this, NewShiftActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, NewShiftActivity.class));
+                return true;
+            case R.id.myshifts:
+                startActivity(new Intent(this, MyShiftsActivity.class));
+                return true;
+            case R.id.openshifts:
+                startActivity(new Intent(this, OpenShiftsActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

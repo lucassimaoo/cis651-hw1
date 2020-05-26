@@ -205,4 +205,9 @@ public class Repository {
             adapter.updateShiftList();
         }
     }
+
+    public void remove(Shift shift) {
+        shiftsRef.child(shift.getId()).removeValue();
+        shifts.remove(shift);
+    }
 }

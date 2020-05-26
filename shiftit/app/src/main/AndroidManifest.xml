@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewShiftActivity"></activity>
+        <activity android:name=".OpenShiftsActivity"></activity>
+        <activity android:name=".MyShiftsActivity" />
+        <activity android:name=".NewShiftActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".SignupLogin" />
         <activity android:name=".MainActivity">
