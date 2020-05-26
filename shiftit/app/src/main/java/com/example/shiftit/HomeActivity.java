@@ -3,7 +3,6 @@ package com.example.shiftit;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -40,14 +37,13 @@ public class HomeActivity extends AppCompatActivity {
         layoutManager.scrollToPosition(0);
         recyclerView.setLayoutManager(layoutManager);
         final HomeActivity thiz = this;
-        OpenShiftsAdapter adapter = new OpenShiftsAdapter(currentUser, new OnListItemClickListener() {
+        ShiftsAdapter adapter = new ShiftsAdapter(currentUser, new OnListItemClickListener() {
             @Override
             public void onItemClick(View v, final Shift shift) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(thiz);
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        shift.setTakerUid(currentUser.getUid());
-                        repository.save(shift);
+                        repository.markAsDone(shift);
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -55,11 +51,11 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 });
 
-                builder.setMessage("Do you want to take this shift for yourself?");
+                builder.setMessage("Mark as done?");
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
-        });
+        }, new AssignedShiftsDataProvider(repository, currentUser.getUid()));
         recyclerView.setAdapter(adapter);
     }
 

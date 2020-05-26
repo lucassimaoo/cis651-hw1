@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         app:showAsAction="never"
-        android:id="@+id/listshifts"
-        android:title="My open shifts">
+        android:id="@+id/myshifts"
+        android:title="My shifts">
     </item>
     <item
         app:showAsAction="never"
-        android:id="@+id/subscribed"
-        android:title="My subscribed shifts">
+        android:id="@+id/openshifts"
+        android:title="Open shifts">
     </item>
     <item
         app:showAsAction="never"

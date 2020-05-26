@@ -1,6 +1,5 @@
 package com.example.shiftit;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +13,21 @@ import com.google.firebase.auth.FirebaseUser;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class OpenShiftsAdapter extends RecyclerView.Adapter<OpenShiftsAdapter.ViewHolder> {
+public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder> {
 
     private static SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm");
     private List<Shift> shiftList;
     private Repository repository;
     private FirebaseUser currentUser;
     private OnListItemClickListener clickListener;
+    private ShiftDataProvider provider;
 
-    public OpenShiftsAdapter(FirebaseUser currentUser, OnListItemClickListener clickListener) {
+    public ShiftsAdapter(FirebaseUser currentUser, OnListItemClickListener clickListener, ShiftDataProvider provider) {
         this.currentUser = currentUser;
         this.clickListener = clickListener;
+        this.provider = provider;
         repository = Repository.getInstance();
-        repository.setOpenShiftAdapter(this);
+        repository.addAdapter(this);
         updateShiftList();
     }
 
@@ -71,8 +72,7 @@ public class OpenShiftsAdapter extends RecyclerView.Adapter<OpenShiftsAdapter.Vi
     }
 
     public void updateShiftList() {
-        Log.d("updateShiftList", "updateShiftList");
-        shiftList = repository.getOpenShiftsByProfession(repository.getUser(currentUser.getUid()).getProfession());
+        shiftList = provider.getShifts();
         notifyDataSetChanged();
     }
 

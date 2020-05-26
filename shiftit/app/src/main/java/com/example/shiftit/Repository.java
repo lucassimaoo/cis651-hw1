@@ -24,10 +24,12 @@ public class Repository {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference usersRef = database.getReference("Users");
     private DatabaseReference shiftsRef = database.getReference("Shifts");
+    private DatabaseReference historyRef = database.getReference("History");
     private ObjectMapper mapper = new ObjectMapper();
     private Map<String, User> users = new HashMap<>();
     private Map<String, Shift> shifts = new HashMap<>();
-    private OpenShiftsAdapter adapter;
+    private Map<String, Shift> history = new HashMap<>();
+    private List<ShiftsAdapter> adapters = new ArrayList<>();
 
     private Repository() {
 
@@ -91,6 +93,38 @@ public class Repository {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+        historyRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("historyRef", "onChildAdded");
+                Shift shift = dataSnapshot.getValue(Shift.class);
+                history.put(shift.getId(), shift);
+                fireAdapterChange();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Shift shift = dataSnapshot.getValue(Shift.class);
+                history.put(shift.getId(), shift);
+                fireAdapterChange();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                Shift shift = dataSnapshot.getValue(Shift.class);
+                history.remove(shift.getId());
+                fireAdapterChange();
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     public static Repository getInstance() {
@@ -114,6 +148,13 @@ public class Repository {
         shifts.put(shift.getId(), shift);
     }
 
+    public void markAsDone(Shift shift) {
+        historyRef.child(shift.getId()).setValue(shift);
+        history.put(shift.getId(), shift);
+        shiftsRef.child(shift.getId()).removeValue();
+        shifts.remove(shift.getId());
+    }
+
     public User getUser(String uid) {
         return users.get(uid);
     }
@@ -131,24 +172,36 @@ public class Repository {
         return r;
     }
 
-    public List<Shift> getMyOpenShifts(String uid) {
+    public List<Shift> getMyShifts(String uid) {
         List<Shift> r = new ArrayList<>();
-        Log.d("getMyOpenShifts", shifts.size() + "");
         for (Shift shift : shifts.values()) {
-            Log.d("shift", shift.getProfession());
-            if (shift.getUid().equals(uid) && shift.getTakerUid() == null) {
+            if (shift.getUid().equals(uid)) {
                 r.add(shift);
             }
         }
         return r;
     }
 
-    public void setOpenShiftAdapter(OpenShiftsAdapter adapter) {
-        this.adapter = adapter;
+    public List<Shift> getShiftsAssigned(String uid) {
+        List<Shift> r = new ArrayList<>();
+        for (Shift shift : shifts.values()) {
+            if (shift.getTakerUid() != null && shift.getTakerUid().equals(uid)) {
+                r.add(shift);
+            }
+        }
+        return r;
+    }
+
+    public void addAdapter(ShiftsAdapter adapter) {
+        this.adapters.add(adapter);
+    }
+
+    public void removeAdapter(ShiftsAdapter adapter) {
+        this.adapters.remove(adapter);
     }
 
     public void fireAdapterChange() {
-        if (adapter != null) {
+        for (ShiftsAdapter adapter: adapters) {
             adapter.updateShiftList();
         }
     }
