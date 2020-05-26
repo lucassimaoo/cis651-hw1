@@ -22,7 +22,7 @@ public class MovieController {
   public List<Movie> getMovies() {
 
     //hydrate all movies in database
-//    repository.saveAll(new MovieData().getMoviesList());
+    //repository.saveAll(new MovieData().getMoviesList());
 
     return  StreamSupport.stream(repository.findAll().spliterator(), false)
       .collect(Collectors.toList());

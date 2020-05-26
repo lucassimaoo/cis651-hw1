@@ -12,4 +12,10 @@
         android:id="@+id/newUser"
         android:title="New User">
     </item>
+    <item
+        android:icon="@drawable/profile_icon"
+        app:showAsAction="ifRoom"
+        android:id="@+id/edit_profile"
+        android:title="Edit Profile">
+    </item>
 </menu>
