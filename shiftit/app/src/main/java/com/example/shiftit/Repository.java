@@ -1,12 +1,10 @@
 package com.example.shiftit;
 
 import android.util.Log;
-import android.widget.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,7 +23,6 @@ public class Repository {
     private DatabaseReference usersRef = database.getReference("Users");
     private DatabaseReference shiftsRef = database.getReference("Shifts");
     private DatabaseReference historyRef = database.getReference("History");
-    private ObjectMapper mapper = new ObjectMapper();
     private Map<String, User> users = new HashMap<>();
     private Map<String, Shift> shifts = new HashMap<>();
     private Map<String, Shift> history = new HashMap<>();
@@ -39,18 +36,21 @@ public class Repository {
                 Log.d("usersRef", "onChildAdded");
                 User user = dataSnapshot.getValue(User.class);
                 users.put(user.getUid(), user);
+                fireAdapterChange();
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 User user = dataSnapshot.getValue(User.class);
                 users.put(user.getUid(), user);
+                fireAdapterChange();
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 users.remove(user.getUid());
+                fireAdapterChange();
             }
 
             @Override
@@ -159,13 +159,12 @@ public class Repository {
         return users.get(uid);
     }
 
-    public List<Shift> getOpenShiftsByProfession(String profession) {
-        //TODO only list shift from other users
+    public List<Shift> getOpenShifts(User user) {
         List<Shift> r = new ArrayList<>();
-        Log.d("getOpenShifts", shifts.size() + " " + profession);
         for (Shift shift : shifts.values()) {
-            Log.d("shift", shift.getProfession());
-            if (shift.getProfession().equals(profession) && shift.getTakerUid() == null) {
+            if (shift.getProfession().equals(user.getProfession()) && shift.getTakerUid() == null
+                    && user.getHospitals().contains(shift.getHospital())
+                    && !shift.getUid().equals(user.getUid())) {
                 r.add(shift);
             }
         }

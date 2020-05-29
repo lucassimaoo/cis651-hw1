@@ -3,12 +3,14 @@ package com.example.shiftit;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -18,12 +20,10 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
     private static SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm");
     private List<Shift> shiftList;
     private Repository repository;
-    private FirebaseUser currentUser;
     private OnListItemClickListener clickListener;
     private ShiftDataProvider provider;
 
-    public ShiftsAdapter(FirebaseUser currentUser, OnListItemClickListener clickListener, ShiftDataProvider provider) {
-        this.currentUser = currentUser;
+    public ShiftsAdapter(OnListItemClickListener clickListener, ShiftDataProvider provider) {
         this.clickListener = clickListener;
         this.provider = provider;
         repository = Repository.getInstance();
@@ -57,18 +57,36 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
             holder.taker_view.setVisibility(View.GONE);
         }
 
+        if (provider.showRequesterPicture()) {
+            User requester = repository.getUser(shift.getUid());
+            if (requester.getPicture() != null) {
+                Picasso.get().load(requester.getPicture()).transform(new CircleTransform()).into(holder.image_view);
+            } else {
+                holder.image_view.setVisibility(View.GONE);
+            }
+        } else if (shift.getTakerUid() != null) {
+            User taker = repository.getUser(shift.getTakerUid());
+            if (taker.getPicture() != null) {
+                Picasso.get().load(taker.getPicture()).transform(new CircleTransform()).into(holder.image_view);
+            } else {
+                holder.image_view.setVisibility(View.GONE);
+            }
+        }
+
 
     }
     @Override
     public int getItemCount() {
         return shiftList.size();
     }
+
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView name_view;
         public TextView date_view;
         public TextView hospital_view;
         public TextView hours_view;
         public TextView taker_view;
+        public ImageView image_view;
         public ViewHolder(View v){
             super(v);
             name_view = v.findViewById(R.id.name_view);
@@ -76,6 +94,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
             hospital_view =  v.findViewById(R.id.hospital_view);
             hours_view = v.findViewById(R.id.hours_view);
             taker_view = v.findViewById(R.id.taker_view);
+            image_view = v.findViewById(R.id.image_view);
         }
     }
 

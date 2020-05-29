@@ -14,6 +14,11 @@ public class OpenShiftsDataProvider implements ShiftDataProvider {
 
     @Override
     public List<Shift> getShifts() {
-        return repository.getOpenShiftsByProfession(repository.getUser(uid).getProfession());
+        return repository.getOpenShifts(repository.getUser(uid));
+    }
+
+    @Override
+    public boolean showRequesterPicture() {
+        return true;
     }
 }

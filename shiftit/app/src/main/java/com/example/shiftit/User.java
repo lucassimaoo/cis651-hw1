@@ -12,6 +12,7 @@ public class User {
     private String phone;
     private List<String> hospitals;
     private String profession;
+    private String picture;
     private Object timestamp = ServerValue.TIMESTAMP;
 
     public User(String uid, String name, String email, String phone, List<String> hospitals, String profession) {
@@ -77,5 +78,13 @@ public class User {
 
     public Object getTimestamp() {
         return timestamp;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }

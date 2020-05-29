@@ -13,7 +13,7 @@ public class MyShiftsActivity extends BasicShiftActivity {
         super.onCreate(savedInstanceState);
 
         final MyShiftsActivity thiz = this;
-        ShiftsAdapter adapter = new ShiftsAdapter(currentUser, new OnListItemClickListener() {
+        ShiftsAdapter adapter = new ShiftsAdapter(new OnListItemClickListener() {
             @Override
             public void onItemClick(View v, final Shift shift) {
 

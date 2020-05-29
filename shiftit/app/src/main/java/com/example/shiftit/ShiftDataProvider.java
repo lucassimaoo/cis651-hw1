@@ -6,4 +6,6 @@ public interface ShiftDataProvider {
 
     List<Shift> getShifts();
 
+    boolean showRequesterPicture();
+
 }

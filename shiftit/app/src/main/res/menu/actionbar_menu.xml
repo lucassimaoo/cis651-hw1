@@ -16,9 +16,25 @@
         android:id="@+id/newshift"
         android:title="Create new shift">
     </item>
+
     <item
-        app:showAsAction="never"
+        app:showAsAction="always"
+        android:id="@+id/home"
+        android:icon="@drawable/home"
+        android:title="Home">
+    </item>
+
+    <item
+        app:showAsAction="always"
+        android:id="@+id/account"
+        android:icon="@drawable/account"
+        android:title="Account">
+    </item>
+
+    <item
+        app:showAsAction="always"
         android:id="@+id/signout"
+        android:icon="@drawable/logout"
         android:title="Sign Out">
     </item>
 

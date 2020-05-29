@@ -1,0 +1,230 @@
+package com.example.shiftit;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import android.Manifest;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.UUID;
+
+public class ProfileActivity extends BasicActivity implements PopupMenu.OnMenuItemClickListener {
+
+    private static final int REQUEST_FOR_CAMERA = 0011;
+    private static final int OPEN_FILE = 0012;
+
+    private EditText name, phone;
+    private ImageView profileImage;
+    private MultiSelectionSpinner hospitalSpinner;
+    private DatabaseReference usersRef;
+    private Uri imageUri;
+    private User user;
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_profile;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        phone = findViewById(R.id.phoneNumberText);
+        name = findViewById(R.id.displayNameText);
+        profileImage = findViewById(R.id.profileImage);
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        usersRef = database.getReference("Users/" + currentUser.getUid());
+
+        user = repository.getUser(currentUser.getUid());
+        name.setText(user.getName());
+        phone.setText(user.getPhone());
+        if (user.getPicture() != null) {
+            Picasso.get().load(user.getPicture()).transform(new CircleTransform()).into(profileImage);
+        }
+
+        ArrayList<String> hospitals = new ArrayList<>();
+        hospitals.add("Hospital 1");
+        hospitals.add("Hospital 2");
+        hospitals.add("Hospital 3");
+        hospitals.add("Hospital 4");
+        hospitals.add("Hospital 5");
+
+        hospitalSpinner = findViewById(R.id.hospitals);
+        hospitalSpinner.setItems(hospitals, "Select hospitals");
+        hospitalSpinner.setSelection((ArrayList<String>) user.getHospitals());
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.takephoto:
+                checkPermissions();
+                return true;
+            case R.id.upload:
+                Intent intent = new Intent().setType("*/*")
+                        .setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select a file"), OPEN_FILE);
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public void uploadProfilePhoto(View view) {
+        PopupMenu popup = new PopupMenu(this, view);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.popup, popup.getMenu());
+        popup.setOnMenuItemClickListener(this);
+        popup.show();
+    }
+
+    private void takePhoto() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+        imageUri = getContentResolver().insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        Intent chooser = Intent.createChooser(intent, "Select a Camera App.");
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(chooser, REQUEST_FOR_CAMERA);
+        }
+    }
+
+    private void checkPermissions() {
+        if (ContextCompat.checkSelfPermission(getBaseContext(),
+                android.Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(getBaseContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "We need permission to access your camera and photo.", Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.CAMERA,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_FOR_CAMERA);
+        } else {
+            takePhoto();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+    int[] grantResults) {
+        if (grantResults.length > 0 &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                requestCode == REQUEST_FOR_CAMERA) {
+            if (ContextCompat.checkSelfPermission(getBaseContext(),
+                    android.Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(getBaseContext(),
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            == PackageManager.PERMISSION_GRANTED) {
+                takePhoto();
+            }
+        } else {
+            Toast.makeText(this, "We need to access your camera and photos to upload.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void uploadImage() {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        final String fileNameInStorage = UUID.randomUUID().toString();
+        String path = "images/" + fileNameInStorage + ".jpg";
+        final StorageReference imageRef = storage.getReference(path);
+        imageRef.putFile(imageUri).addOnSuccessListener(new
+            OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    imageRef.getDownloadUrl().addOnSuccessListener(new
+                           OnSuccessListener<Uri>() {
+                               @Override
+                               public void onSuccess(final Uri uri) {
+                                   user.setPicture(uri.toString());
+                                   repository.save(user);
+                                   Picasso.get().load(uri.toString()).transform(new
+                                           CircleTransform()).into(profileImage);
+                               }
+                           }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ProfileActivity.this, e.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ProfileActivity.this, e.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable
+    Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_FOR_CAMERA && resultCode == RESULT_OK) {
+            if(imageUri==null)
+            {
+                Toast.makeText(this, "Error taking photo.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            uploadImage();
+            return;
+        }
+        if(requestCode==OPEN_FILE && resultCode==RESULT_OK) {
+            imageUri = data.getData();
+            uploadImage();
+        }
+    }
+
+    public void Save(View view) {
+        if(name.getText().toString().equals("") ||
+                phone.getText().toString().equals("") || hospitalSpinner.getSelectedItems().isEmpty()) {
+            Toast.makeText(this, "Please enter your name, phone number and hospitals", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        user.setPhone(phone.getText().toString());
+        user.setName(name.getText().toString());
+        user.setHospitals(hospitalSpinner.getSelectedItems());
+        repository.save(user);
+
+        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+}

@@ -1,15 +1,9 @@
 package com.example.shiftit;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -19,18 +13,14 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class NewShiftActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class NewShiftActivity extends BasicActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private static SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-    private Repository repository;
     private Spinner hospital;
-    private FirebaseAuth auth;
-    private FirebaseUser currentUser;
     private User user;
     private Calendar date;
     private EditText hours;
@@ -38,7 +28,6 @@ public class NewShiftActivity extends AppCompatActivity implements DatePickerDia
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_shift);
 
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
@@ -57,6 +46,11 @@ public class NewShiftActivity extends AppCompatActivity implements DatePickerDia
         hospital.setAdapter(adapter);
 
         hours = findViewById(R.id.hours);
+    }
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_new_shift;
     }
 
     @Override
@@ -103,33 +97,5 @@ public class NewShiftActivity extends AppCompatActivity implements DatePickerDia
         date.set(Calendar.MINUTE, minute);
         TextView dateView = findViewById(R.id.date);
         dateView.setText(format.format(date.getTime()));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.signout:
-                auth.signOut();
-                finish();
-                return true;
-            case R.id.newshift:
-                startActivity(new Intent(this, NewShiftActivity.class));
-                return true;
-            case R.id.myshifts:
-                startActivity(new Intent(this, MyShiftsActivity.class));
-                return true;
-            case R.id.openshifts:
-                startActivity(new Intent(this, OpenShiftsActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
     }
 }

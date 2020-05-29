@@ -16,4 +16,9 @@ public class MyShiftsDataProvider implements ShiftDataProvider {
     public List<Shift> getShifts() {
         return repository.getMyShifts(uid);
     }
+
+    @Override
+    public boolean showRequesterPicture() {
+        return false;
+    }
 }

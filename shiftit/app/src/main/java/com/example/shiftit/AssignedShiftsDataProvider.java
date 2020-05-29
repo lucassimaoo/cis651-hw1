@@ -16,4 +16,9 @@ public class AssignedShiftsDataProvider implements ShiftDataProvider {
     public List<Shift> getShifts() {
         return repository.getShiftsAssigned(uid);
     }
+
+    @Override
+    public boolean showRequesterPicture() {
+        return true;
+    }
 }
