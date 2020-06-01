@@ -1,10 +1,17 @@
 package com.example.shiftit;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,6 +25,7 @@ import java.util.Map;
 
 public class Repository {
 
+
     private static Repository INSTANCE;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference usersRef = database.getReference("Users");
@@ -27,6 +35,7 @@ public class Repository {
     private Map<String, Shift> shifts = new HashMap<>();
     private Map<String, Shift> history = new HashMap<>();
     private List<ShiftsAdapter> adapters = new ArrayList<>();
+    private Integer notificationId = 1;
 
     private Repository() {
 
@@ -69,6 +78,30 @@ public class Repository {
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 shifts.put(shift.getId(), shift);
                 fireAdapterChange();
+
+                User user = getCurrentUser();
+                if (user != null
+                    && !user.getUid().equals(shift.getUid())
+                    && user.getHospitals().contains(shift.getHospital())
+                    && shift.getProfession().equals(user.getProfession())) {
+
+                    Intent intent = new Intent(AppInitializer.getContext(), OpenShiftsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(AppInitializer.getContext(), 0, intent, 0);
+
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(AppInitializer.getContext(), AppInitializer.CHANNEL_ID)
+                            .setSmallIcon(R.drawable.notification_icon)
+                            .setContentTitle("New shift available")
+                            .setContentText("At " + shift.getHospital() + " for " + shift.getHours() + " hours, starting " + shift.getDate())
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                            .setContentIntent(pendingIntent)
+                            .setAutoCancel(true);
+
+                    builder.build();
+
+                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(AppInitializer.getContext());
+                    notificationManager.notify(notificationId++, builder.build());
+                }
             }
 
             @Override
@@ -76,6 +109,30 @@ public class Repository {
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 shifts.put(shift.getId(), shift);
                 fireAdapterChange();
+
+                User user = getCurrentUser();
+                if (user != null
+                        && user.getUid().equals(shift.getUid())
+                        && shift.getTakerUid() != null) {
+
+                    Intent intent = new Intent(AppInitializer.getContext(), MyShiftsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(AppInitializer.getContext(), 0, intent, 0);
+
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(AppInitializer.getContext(), AppInitializer.CHANNEL_ID)
+                            .setSmallIcon(R.drawable.notification_icon)
+                            .setContentTitle("Your shift got taken")
+                            .setContentText("At " + shift.getHospital() + " by " + getUser(shift.getTakerUid()).getName() + " starting " + shift.getDate())
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                            .setContentIntent(pendingIntent)
+                            .setAutoCancel(true);
+
+                    builder.build();
+
+                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(AppInitializer.getContext());
+                    notificationManager.notify(notificationId++, builder.build());
+                }
+
             }
 
             @Override
@@ -208,5 +265,14 @@ public class Repository {
     public void remove(Shift shift) {
         shiftsRef.child(shift.getId()).removeValue();
         shifts.remove(shift);
+    }
+
+    private User getCurrentUser() {
+        FirebaseUser authUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (authUser != null && users.containsKey(authUser.getUid())) {
+            return users.get(authUser.getUid());
+        }
+
+        return null;
     }
 }
