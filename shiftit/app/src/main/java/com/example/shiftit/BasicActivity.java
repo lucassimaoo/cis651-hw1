@@ -41,7 +41,7 @@ public abstract class BasicActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.signout:
                 auth.signOut();
-                finish();
+                finishAffinity();
                 return true;
             case R.id.newshift:
                 startActivity(new Intent(this, NewShiftActivity.class));

@@ -6,6 +6,25 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:textColor">@color/font</item>
+        <item name="android:textColorPrimary">@color/font</item>
+        <item name="android:editTextColor">@color/font</item>
+        <item name="android:colorButtonNormal">@color/button</item>
+        <item name="android:textColorHint">@color/font</item>
+
+        <item name="actionOverflowMenuStyle">@style/CMOptionsMenu</item>
+
     </style>
 
+    <style name="CMOptionsMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/background</item>
+    </style>
+
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/background</item>
+        <item name="android:textColor">@color/font</item>
+        <item name="android:textColorPrimary">@color/font</item>
+        <item name="android:colorAccent">@color/font</item>
+    </style>
 </resources>

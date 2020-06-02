@@ -26,7 +26,7 @@ public class HomeActivity extends BasicShiftActivity {
         ShiftsAdapter adapter = new ShiftsAdapter(new OnListItemClickListener() {
             @Override
             public void onItemClick(View v, final Shift shift) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(thiz);
+                AlertDialog.Builder builder = new AlertDialog.Builder(thiz, R.style.MyDialogTheme);
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         repository.markAsDone(shift);

@@ -19,7 +19,7 @@ public class MyShiftsActivity extends BasicShiftActivity {
 
                 boolean isShiftTaken = shift.getTakerUid() != null;
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(thiz);
+                AlertDialog.Builder builder = new AlertDialog.Builder(thiz, R.style.MyDialogTheme);
 
                 if (isShiftTaken) {
                     builder.setMessage("This shift is taken by another person, you can't delete it");
