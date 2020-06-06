@@ -34,7 +34,7 @@ public class Repository {
     private Map<String, User> users = new HashMap<>();
     private Map<String, Shift> shifts = new HashMap<>();
     private Map<String, Shift> history = new HashMap<>();
-    private List<ShiftsAdapter> adapters = new ArrayList<>();
+    private List<Adapter> adapters = new ArrayList<>();
     private Integer notificationId = 1;
 
     private Repository() {
@@ -154,7 +154,6 @@ public class Repository {
         historyRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.d("historyRef", "onChildAdded");
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 history.put(shift.getId(), shift);
                 fireAdapterChange();
@@ -212,6 +211,13 @@ public class Repository {
         shifts.remove(shift.getId());
     }
 
+    public void markAsSettled(List<Shift> shifts) {
+        for (Shift shift: shifts) {
+            historyRef.child(shift.getId()).removeValue();
+            history.remove(shift.getId());
+        }
+    }
+
     public User getUser(String uid) {
         return users.get(uid);
     }
@@ -248,7 +254,7 @@ public class Repository {
         return r;
     }
 
-    public void addAdapter(ShiftsAdapter adapter) {
+    public void addAdapter(Adapter adapter) {
         this.adapters.add(adapter);
     }
 
@@ -257,8 +263,8 @@ public class Repository {
     }
 
     public void fireAdapterChange() {
-        for (ShiftsAdapter adapter: adapters) {
-            adapter.updateShiftList();
+        for (Adapter adapter: adapters) {
+            adapter.updateList();
         }
     }
 
@@ -274,5 +280,42 @@ public class Repository {
         }
 
         return null;
+    }
+
+    public List<History> getHistory() {
+
+        User currentUser = getCurrentUser();
+
+        List<History> list = new ArrayList<>();
+
+        Map<String, List<Shift>> map = new HashMap<>();
+
+        for (Shift s : history.values()) {
+            if (s.getUid().equals(currentUser.getUid())) {
+
+                if (!map.containsKey(s.getTakerUid())) {
+                    map.put(s.getTakerUid(), new ArrayList<Shift>());
+                }
+
+                map.get(s.getTakerUid()).add(s);
+            }
+        }
+
+        for (String taker : map.keySet()) {
+
+            History h = new History();
+            h.setUid(taker);
+            int hours = 0;
+
+            for (Shift s: map.get(taker)) {
+                hours += s.getHours();
+            }
+
+            h.setShifts(map.get(taker));
+            h.setHours(hours);
+            list.add(h);
+        }
+
+        return list;
     }
 }

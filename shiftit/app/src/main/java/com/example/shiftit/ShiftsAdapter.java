@@ -14,20 +14,20 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder> {
+public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder> implements Adapter {
 
     private static SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm");
     private List<Shift> shiftList;
     private Repository repository;
-    private OnListItemClickListener clickListener;
+    private OnListItemClickListener<Shift> clickListener;
     private ShiftDataProvider provider;
 
-    public ShiftsAdapter(OnListItemClickListener clickListener, ShiftDataProvider provider) {
+    public ShiftsAdapter(OnListItemClickListener<Shift> clickListener, ShiftDataProvider provider) {
         this.clickListener = clickListener;
         this.provider = provider;
         repository = Repository.getInstance();
         repository.addAdapter(this);
-        updateShiftList();
+        updateList();
     }
 
     @NonNull
@@ -97,7 +97,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
         }
     }
 
-    public void updateShiftList() {
+    public void updateList() {
         shiftList = provider.getShifts();
         notifyDataSetChanged();
     }

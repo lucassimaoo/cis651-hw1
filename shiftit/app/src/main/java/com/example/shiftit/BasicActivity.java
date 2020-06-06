@@ -58,6 +58,9 @@ public abstract class BasicActivity extends AppCompatActivity {
             case R.id.home:
                 startActivity(new Intent(this, HomeActivity.class));
                 return true;
+            case R.id.history:
+                startActivity(new Intent(this, HistoryActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

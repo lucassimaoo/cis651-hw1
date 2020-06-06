@@ -13,7 +13,7 @@ public class OpenShiftsActivity extends BasicShiftActivity {
         super.onCreate(savedInstanceState);
 
         final OpenShiftsActivity thiz = this;
-        ShiftsAdapter adapter = new ShiftsAdapter(new OnListItemClickListener() {
+        ShiftsAdapter adapter = new ShiftsAdapter(new OnListItemClickListener<Shift>() {
             @Override
             public void onItemClick(View v, final Shift shift) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(thiz, R.style.MyDialogTheme);

@@ -18,6 +18,12 @@
     </item>
 
     <item
+        app:showAsAction="never"
+        android:id="@+id/history"
+        android:title="History">
+    </item>
+
+    <item
         app:showAsAction="always"
         android:id="@+id/home"
         android:icon="@drawable/home"
