@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -62,10 +63,8 @@ public class NewShiftActivity extends BasicActivity implements DatePickerDialog.
         date.set(Calendar.MONTH, month);
 
         int hour = date.get(Calendar.HOUR_OF_DAY);
-        int minute = date.get(Calendar.MINUTE);
 
-        // Create a new instance of TimePickerDialog and return it
-        new TimePickerDialog(this, this, hour, minute,
+        new TimePickerDialog(this, this, hour, 0,
                 DateFormat.is24HourFormat(this)).show();
     }
 
@@ -74,13 +73,18 @@ public class NewShiftActivity extends BasicActivity implements DatePickerDialog.
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
-
-        // Create a new instance of DatePickerDialog and return it
+        
         new DatePickerDialog(this, this, year, month, day).show();
     }
 
     public void create(View view) {
-        //TODO add validation
+
+        if (date == null || hours.getText().toString().trim().isEmpty()
+                || hospital.getSelectedItem().toString().isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Shift shift = new Shift(currentUser.getUid(), date.getTime(),
                 Integer.valueOf(hours.getText().toString()), hospital.getSelectedItem().toString(), user.getProfession());
         repository.save(shift);
@@ -94,7 +98,7 @@ public class NewShiftActivity extends BasicActivity implements DatePickerDialog.
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         date.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        date.set(Calendar.MINUTE, minute);
+        date.set(Calendar.MINUTE, 0);
         TextView dateView = findViewById(R.id.date);
         dateView.setText(format.format(date.getTime()));
     }
