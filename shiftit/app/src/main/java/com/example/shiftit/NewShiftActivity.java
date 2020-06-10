@@ -39,6 +39,7 @@ public class NewShiftActivity extends BasicActivity implements DatePickerDialog.
 
         hospital = findViewById(R.id.hospital);
         hospital.setPrompt("Select a hospital");
+        hospital.getPopupContext().setTheme(R.style.PopUp);
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, 0, user.getHospitals());
@@ -64,7 +65,7 @@ public class NewShiftActivity extends BasicActivity implements DatePickerDialog.
 
         int hour = date.get(Calendar.HOUR_OF_DAY);
 
-        new TimePickerDialog(this, this, hour, 0,
+        new TimePickerDialog(this, R.style.TimePicker, this, hour, 0,
                 DateFormat.is24HourFormat(this)).show();
     }
 
@@ -74,7 +75,7 @@ public class NewShiftActivity extends BasicActivity implements DatePickerDialog.
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
         
-        new DatePickerDialog(this, this, year, month, day).show();
+        new DatePickerDialog(this, R.style.DatePicker, this, year, month, day).show();
     }
 
     public void create(View view) {
