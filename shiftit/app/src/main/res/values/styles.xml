@@ -12,6 +12,7 @@
         <item name="android:editTextColor">@color/font</item>
         <item name="android:colorButtonNormal">@color/button</item>
         <item name="android:textColorHint">@color/font</item>
+        <item name="android:dialogTheme">@style/MyDialogTheme</item>
 
         <item name="actionOverflowMenuStyle">@style/CMOptionsMenu</item>
 
@@ -26,5 +27,13 @@
         <item name="android:textColor">@color/font</item>
         <item name="android:textColorPrimary">@color/font</item>
         <item name="android:colorAccent">@color/font</item>
+        <item name="textColorAlertDialogListItem">@color/font</item>
     </style>
+
+    <style name="PopUp" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:textColor">@color/font</item>
+        <item name="android:itemBackground">@color/background</item>
+        <item name="android:background">@color/background</item>
+    </style>
+
 </resources>

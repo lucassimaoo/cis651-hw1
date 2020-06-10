@@ -1,20 +1,24 @@
 package com.example.shiftit;
 
-import android.app.AlertDialog;
+
 import android.content.Context;
 import android.content.DialogInterface;
 
+import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatSpinner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MultiSelectionSpinner extends AppCompatSpinner implements
+public class MultiSelectionSpinner extends androidx.appcompat.widget.AppCompatSpinner implements
         DialogInterface.OnMultiChoiceClickListener {
 
     ArrayList<String> items = null;
@@ -52,7 +56,7 @@ public class MultiSelectionSpinner extends AppCompatSpinner implements
 
     @Override
     public boolean performClick() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
         String[] itemNames = new String[items.size()];
 
         for (int i = 0; i < items.size(); i++) {

@@ -3,6 +3,7 @@ package com.example.shiftit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -79,6 +80,8 @@ public class SignupLogin extends AppCompatActivity {
                 return false;
             }
         });
+
+        profession.getPopupContext().setTheme(R.style.PopUp);
 
         ArrayList<String> hospitals = new ArrayList<>();
         hospitals.add("Hospital 1");

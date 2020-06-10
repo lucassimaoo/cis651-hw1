@@ -7,12 +7,14 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,7 +102,8 @@ public class ProfileActivity extends BasicActivity implements PopupMenu.OnMenuIt
     }
 
     public void uploadProfilePhoto(View view) {
-        PopupMenu popup = new PopupMenu(this, view);
+        Context wrapper = new ContextThemeWrapper(this, R.style.PopUp);
+        PopupMenu popup = new PopupMenu(wrapper, view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.popup, popup.getMenu());
         popup.setOnMenuItemClickListener(this);
